@@ -3,8 +3,7 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
 		host: 'localhost',
-		user: 'root',
-		password: 'zxccxz',
+		user: 'tester',
 		database: 'join_us'
 });
 
@@ -40,3 +39,5 @@ function insertBulk() {
 	});
 	connection.end();
 }
+
+getAllUsers(console.log);
