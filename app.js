@@ -40,4 +40,3 @@ function insertBulk() {
 	connection.end();
 }
 
-getAllUsers(console.log);
