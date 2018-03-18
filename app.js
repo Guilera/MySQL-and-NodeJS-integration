@@ -1,8 +1,10 @@
 var faker = require('faker');
 var mysql = require('mysql');
 var app = require('express')();
+var bodyParser = require('body-parser');
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 
 var connection = mysql.createConnection({
 		host: 'localhost',
@@ -11,16 +13,19 @@ var connection = mysql.createConnection({
 });
 
 
-app.get("/", (req, res) => res.send("This is the homepage"));
+app.get("/", function(req, res){
+	getCountUsers(x => res.render("home", {count: x}));
+});
 
-app.get("/count", function(req, res){
-	getTotalUsers(x => res.send("We have " + x + " users enroll"));
+app.post("/register", function(req, res){
+	var user = {email: req.body.email};
+	insertUser(user, () => res.redirect("/"));
 });
 
 app.listen(8080, console.log("app listening on port 8080"));
 
-function getTotalUsers(callback) {
-	connection.connect();
+function getCountUsers(callback) {
+	connection = mysql.createConnection(connection.config);
 	var q = "SELECT COUNT(*) AS total FROM users";
 	connection.query(q, function(error, results, fields) {
 		if(error) throw error;
@@ -29,25 +34,12 @@ function getTotalUsers(callback) {
 	connection.end();
 }
 
-function getAllUsers(callback) {
+function insertUser(data, callback) {
 	connection = mysql.createConnection(connection.config);
-	q = "SELECT * FROM users";
-	connection.query(q, function(error, results, fields) {
-		if(error) throw error;
-		callback(results);
-	});
-	connection.end();
-}
-
-function insertBulk() {
-	connection = mysql.createConnection(connection.config);
-	var data = [];
-	for(i = 0 ; i < 500 ; i++)
-		data.push([faker.internet.email(), faker.date.past()]);
-	var q = "INSERT INTO users VALUES ?";
-	connection.query(q, [data], function(error, results) {
-		if(error) throw error;		
+	var q = "INSERT INTO users SET ?";
+	connection.query(q, data, function(error, results){
+		console.log(error);
 		console.log(results);
+		callback();
 	});
-	connection.end();
 }
