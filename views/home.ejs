@@ -3,13 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Join Us</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="home.css">
 </head>
 <body>
-	<h1>JOIN US</h1>
-	<p>Enter your email to join <strong><%=count%></strong> others in our waitlist</p>
-	<form method="post" action="/register">
-		<input type="text" name="email" placeholder="Enter your email">
-		<button>Join Now</button>
-	</form>
+	<div class="flex-container">
+		<div>
+			<h1>JOIN US</h1>
+			<p>Enter your email to join <strong><%=count%></strong> others in our waitlist</p>
+			<form method="post" action="/register">
+				<input type="text" name="email" placeholder="Enter your email">
+				<button>Join Now</button>
+			</form>
+		</div>
+	</div>
 </body>
 </html>
