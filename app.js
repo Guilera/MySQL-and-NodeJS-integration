@@ -2,6 +2,8 @@ var faker = require('faker');
 var mysql = require('mysql');
 var app = require('express')();
 
+app.set("view engine", "ejs");
+
 var connection = mysql.createConnection({
 		host: 'localhost',
 		user: 'tester',
@@ -49,4 +51,3 @@ function insertBulk() {
 	});
 	connection.end();
 }
-
