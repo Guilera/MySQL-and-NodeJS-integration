@@ -1,11 +1,21 @@
 var faker = require('faker');
 var mysql = require('mysql');
+var app = require('express')();
 
 var connection = mysql.createConnection({
 		host: 'localhost',
 		user: 'tester',
 		database: 'join_us'
 });
+
+
+app.get("/", (req, res) => res.send("This is the homepage"));
+
+app.get("/count", function(req, res){
+	getTotalUsers(x => res.send("We have " + x + " users enroll"));
+});
+
+app.listen(8080, console.log("app listening on port 8080"));
 
 function getTotalUsers(callback) {
 	connection.connect();
